@@ -1,16 +1,24 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
 import InputArea from './components/InputArea'
+import ToDoitem from './components/ToDoitem'
 
 function App() {
   const [items, setItems] = useState([])
   
-   const additems =(inpuText)=>{
+   const additems =(inputText)=>{
      setItems((prev)=>{
-      return[...prev, inpuText]
+      return[...prev, inputText]
      })
+   }
+
+   const deleteItem = (id) =>{
+       setItems((prev)=>{
+        return prev.filter((item, index)=>{
+          return index!==id
+        })
+       })
    }
    console.log(items);
   return (
@@ -20,6 +28,15 @@ function App() {
           <h1>To-Do List</h1>
          </div>
          <InputArea addItems={additems}/>
+         <div>
+          <ul>
+            {
+              items.map((item, index)=>{
+                return <ToDoitem key={index} text={item} deleteItem={deleteItem} id={index}/> 
+              })
+            }
+          </ul>
+         </div>
       </div>
         
     </>
